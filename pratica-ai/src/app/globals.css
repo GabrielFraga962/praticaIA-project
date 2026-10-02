@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tinta azulada sobre branco; no escuro, azul-noite. O acento é um cobalto,
+   usado em seleção, fontes citadas e no palco que sustenta o app. */
+:root {
+  --background: #ffffff;
+  --foreground: #0b1220;
+  --card: #ffffff;
+  --card-foreground: #0b1220;
+  --popover: #ffffff;
+  --popover-foreground: #0b1220;
+  --primary: #0b1220;
+  --primary-foreground: #ffffff;
+  --muted: #f3f5f9;
+  --muted-foreground: #566074;
+  --border: #e3e7ee;
+  --border-strong: #cbd2de;
+  --ring: #2457ff;
+  --destructive: #c8352b;
+  --success: #12805c;
+
+  --accent: #2457ff;
+  --accent-foreground: #ffffff;
+  --accent-soft: rgba(36, 87, 255, 0.07);
+  --stage: #2457ff;
+  --stage-foreground: #ffffff;
+}
+
+.dark {
+  --background: #0a0e17;
+  --foreground: #eef1f7;
+  --card: #101624;
+  --card-foreground: #eef1f7;
+  --popover: #141b2b;
+  --popover-foreground: #eef1f7;
+  --primary: #eef1f7;
+  --primary-foreground: #0a0e17;
+  --muted: #141b2b;
+  --muted-foreground: #98a2b8;
+  --border: #1e2740;
+  --border-strong: #2d3856;
+  --ring: #6d8dff;
+  --destructive: #f28b82;
+  --success: #4cc38a;
+
+  --accent: #7b97ff;
+  --accent-foreground: #0a0e17;
+  --accent-soft: rgba(123, 151, 255, 0.1);
+  --stage: #172b73;
+  --stage-foreground: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-ring: var(--ring);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-soft: var(--accent-soft);
+  --color-stage: var(--stage);
+  --color-stage-foreground: var(--stage-foreground);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color-scheme: light;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Superfícies do navegador que também carregam o design */
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+input,
+textarea {
+  caret-color: var(--accent);
+}
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+}
+table,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+.display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 560;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+/* Movimento: o estado inicial só existe com JS e sem "reduzir movimento"
+   (a flag é posta no <html> antes da pintura, ver layout.tsx). */
+html[data-motion="on"] [data-reveal],
+html[data-motion="on"] [data-hero] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+html[data-motion="on"] [data-hero-title],
+html[data-motion="on"] [data-hero-lead] {
+  visibility: hidden;
+}
+html[data-motion="on"] [data-lead] {
+  opacity: 0;
+}
+html[data-motion="on"] [data-perk] {
+  opacity: 0;
+  transform: translateX(-16px);
+}
+/* Rede de segurança: se o JS de animação não rodar, o hero aparece sozinho. */
+html[data-motion="on"] [data-hero],
+html[data-motion="on"] [data-hero-title],
+html[data-motion="on"] [data-hero-lead] {
+  animation: hero-fallback 0s 3s forwards;
+}
+@keyframes hero-fallback {
+  to {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
