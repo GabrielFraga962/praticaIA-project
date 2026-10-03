@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/motion/select";
 import { PREFILL_EVENT } from "./HeroEmail";
+import { lerOrigem } from "./VisitTracker";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -46,7 +47,13 @@ function FieldError({ message }: { message?: string }) {
 }
 
 export function LeadForm() {
-  const [state, formAction, isPending] = useActionState(submitLead, initialState);
+  const [state, formAction, isPending] = useActionState(
+    (prevState: LeadFormState, formData: FormData) => {
+      formData.set("origem", lerOrigem());
+      return submitLead(prevState, formData);
+    },
+    initialState
+  );
   const [email, setEmail] = useState("");
   const [perfil, setPerfil] = useState<string>();
   const [disposicao, setDisposicao] = useState<string>();

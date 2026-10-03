@@ -13,6 +13,16 @@ const PERFIS = ["universitario", "concurseiro", "vestibulando", "autodidata"] as
 const DISPOSICOES = ["sim", "talvez", "nao"] as const;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const ORIGEM_REGEX = /^[a-z0-9_-]{1,60}$/;
+
+function normalizarOrigem(valor: unknown): string {
+  const origem = String(valor ?? "").trim().toLowerCase();
+  return ORIGEM_REGEX.test(origem) ? origem : "direto";
+}
+
+export async function registrarVisita(origem: string): Promise<void> {
+  await supabase.from("visitas").insert({ origem: normalizarOrigem(origem) });
+}
 
 export async function submitLead(
   _prevState: LeadFormState,
@@ -38,6 +48,7 @@ export async function submitLead(
     email,
     perfil,
     disposicao_pagar: disposicaoPagar,
+    origem: normalizarOrigem(formData.get("origem")),
   });
 
   if (error) {

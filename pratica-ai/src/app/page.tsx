@@ -7,6 +7,7 @@ import { PageMotion } from "@/components/PageMotion";
 import { ProblemSolution } from "@/components/ProblemSolution";
 import { Testimonials } from "@/components/Testimonials";
 import { VipSection } from "@/components/VipSection";
+import { VisitTracker } from "@/components/VisitTracker";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       </main>
       <Footer />
       <PageMotion />
+      <VisitTracker />
     </>
   );
 }
